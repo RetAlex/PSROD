@@ -14,7 +14,8 @@ public class Theatre {
     // Counted in milliseconds from nearest subway station
     private int distance;
 
-    public Theatre(String name, String address, int rating, int capacity, int distance) {
+    public Theatre(int id, String name, String address, int rating, int capacity, int distance) {
+        this.id = id;
         this.name = name;
         this.address = address;
         this.rating = rating;
@@ -44,5 +45,17 @@ public class Theatre {
 
     public int getDistance() {
         return distance;
+    }
+
+    @Override
+    public String toString() {
+        return "Theatre{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", rating=" + rating +
+                ", capacity=" + capacity +
+                ", distance=" + distance +
+                '}';
     }
 }
