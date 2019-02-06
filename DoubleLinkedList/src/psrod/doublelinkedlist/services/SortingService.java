@@ -1,6 +1,7 @@
 package psrod.doublelinkedlist.services;
 
 import psrod.doublelinkedlist.entities.Theatre;
+import psrod.doublelinkedlist.enums.Criteria;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -11,9 +12,9 @@ public class SortingService {
     private static Map<Integer, MultiDimensionalNode<Theatre>> allTheatres = new HashMap<>();
 
     public static MultiDimensionalNode<Theatre> makeTask(List<Theatre> theatres){
-        for(String criteria: List.of("address", "capacity", "rating", "distance", "name")) {
-            sortByCriteria(criteria, theatres);
-            addSortingDimension(criteria, theatres);
+        for(Criteria criteria: Criteria.values()) {
+            sortByCriteria(criteria.getCriteriaName(), theatres);
+            addSortingDimension(criteria.getCriteriaName(), theatres);
         }
         MultiDimensionalNode<Theatre> nodeToReturn = allTheatres.get(theatres.get(0).getId());
         allTheatres=null;
@@ -80,8 +81,16 @@ public class SortingService {
             return nextElements.getOrDefault(criteria, null);
         }
 
+        public MultiDimensionalNode<T> getNext(Criteria criteria){
+            return nextElements.getOrDefault(criteria.getCriteriaName(), null);
+        }
+
         public MultiDimensionalNode<T> getPrevious(String criteria){
             return previousElements.getOrDefault(criteria, null);
+        }
+
+        public MultiDimensionalNode<T> getPrevious(Criteria criteria){
+            return previousElements.getOrDefault(criteria.getCriteriaName(), null);
         }
 
         public T getElement(){

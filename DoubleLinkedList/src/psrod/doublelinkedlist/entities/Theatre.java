@@ -1,5 +1,12 @@
 package psrod.doublelinkedlist.entities;
 
+import psrod.doublelinkedlist.views.TheatreView;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 public class Theatre {
     // Unique identifier of theatre in DB
     private int id;
@@ -13,14 +20,17 @@ public class Theatre {
     private int capacity;
     // Counted in milliseconds from nearest subway station
     private int distance;
+    // Image url for this theatre
+    private String imageURL;
 
-    public Theatre(int id, String name, String address, int rating, int capacity, int distance) {
+    public Theatre(int id, String name, String address, int rating, int capacity, int distance, String imageURL) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.rating = rating;
         this.capacity = capacity;
         this.distance = distance;
+        this.imageURL = imageURL;
     }
 
     public int getId() {
@@ -45,6 +55,20 @@ public class Theatre {
 
     public int getDistance() {
         return distance;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public InputStream loadImage() throws FileNotFoundException {
+        InputStream is = TheatreView.class.getClassLoader().getResourceAsStream(imageURL);
+        if(is == null){
+            File file = new File(imageURL);
+            if(!file.exists()) throw new FileNotFoundException();
+            is = new FileInputStream(file);
+        }
+        return is;
     }
 
     @Override
