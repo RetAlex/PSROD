@@ -11,14 +11,12 @@ import java.util.Map;
 public class SortingService {
     private static Map<Integer, MultiDimensionalNode<Theatre>> allTheatres = new HashMap<>();
 
-    public static MultiDimensionalNode<Theatre> makeTask(List<Theatre> theatres){
+    public static void makeTask(List<Theatre> theatres){
+        allTheatres = new HashMap<>();
         for(Criteria criteria: Criteria.values()) {
             sortByCriteria(criteria.getCriteriaName(), theatres);
             addSortingDimension(criteria.getCriteriaName(), theatres);
         }
-        MultiDimensionalNode<Theatre> nodeToReturn = allTheatres.get(theatres.get(0).getId());
-        allTheatres=null;
-        return nodeToReturn;
     }
 
     private static void sortByCriteria(String criteria, List<Theatre> theatres){
@@ -40,6 +38,31 @@ public class SortingService {
         }
     }
 
+    public static Theatre getNext(int currentId, Criteria criteria){
+        return getNodeById(currentId).getNext(criteria).getElement();
+    }
+    public static Theatre getPrevious(int currentId, Criteria criteria){
+        return getNodeById(currentId).getPrevious(criteria).getElement();
+    }
+    public static Map<Criteria, Theatre> getPrevNeighbours(Integer currentId){
+        Map<Criteria, Theatre> result = new HashMap<>();
+        MultiDimensionalNode<Theatre> node = getNodeById(currentId);
+        for(Criteria criteria: Criteria.values()){
+            MultiDimensionalNode<Theatre> element = node.previousElements.get(criteria.getCriteriaName());
+            result.put(criteria, element==null?null:element.getElement());
+        }
+        return result;
+    }
+
+    public static Map<Criteria, Theatre> getNextNeighbours(Integer currentId){
+        Map<Criteria, Theatre> result = new HashMap<>();
+        MultiDimensionalNode<Theatre> node = getNodeById(currentId);
+        for(Criteria criteria: Criteria.values()){
+            MultiDimensionalNode<Theatre> element = node.nextElements.get(criteria.getCriteriaName());
+            result.put(criteria, element==null?null:element.getElement());
+        }
+        return result;
+    }
     private static void addSortingDimension(String criteria, List<Theatre> theatres){
         MultiDimensionalNode<Theatre> previous = null;
         for(Theatre theatre: theatres){
@@ -56,6 +79,12 @@ public class SortingService {
 
     private static MultiDimensionalNode<Theatre> getNodeById(Theatre theatre){
         return allTheatres.getOrDefault(theatre.getId(), new MultiDimensionalNode<>(theatre));
+    }
+
+    public static MultiDimensionalNode<Theatre> getNodeById(int id){
+        MultiDimensionalNode<Theatre> node = allTheatres.get(id);
+        if(node==null) throw new TheatreNotExistsException();
+        return node;
     }
 
     public static class MultiDimensionalNode<T>{

@@ -3,7 +3,7 @@ package psrod.doublelinkedlist.enums;
 import psrod.doublelinkedlist.exceptions.NotImplementedException;
 
 public enum Criteria {
-    ADDRESS("Address asc alphabetical", "Address desc alphabetical"), CAPACITY("Capacity higher", "Capacity lower"), RATING("Rating higher", "Rating lower"), DISTANCE("Distance bigger", "Distance smaller"), NAME("Name asc alphabetical", "Name desc alphabetical");
+    ADDRESS("CurrentAddress asc alphabetical", "CurrentAddress desc alphabetical"), CAPACITY("Capacity higher", "Capacity lower"), RATING("Rating higher", "Rating lower"), DISTANCE("Distance bigger", "Distance smaller"), NAME("Name asc alphabetical", "Name desc alphabetical");
 
     public String nextName, prevName;
 

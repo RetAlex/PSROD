@@ -1,7 +1,5 @@
 package psrod.doublelinkedlist.entities;
 
-import psrod.doublelinkedlist.views.TheatreView;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -62,7 +60,7 @@ public class Theatre {
     }
 
     public InputStream loadImage() throws FileNotFoundException {
-        InputStream is = TheatreView.class.getClassLoader().getResourceAsStream(imageURL);
+        InputStream is = Theatre.class.getClassLoader().getResourceAsStream(imageURL);
         if(is == null){
             File file = new File(imageURL);
             if(!file.exists()) throw new FileNotFoundException();

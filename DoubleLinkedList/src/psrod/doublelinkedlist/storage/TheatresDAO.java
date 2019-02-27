@@ -1,10 +1,12 @@
 package psrod.doublelinkedlist.storage;
 
 import psrod.doublelinkedlist.entities.Theatre;
+import psrod.doublelinkedlist.enums.Criteria;
 import psrod.doublelinkedlist.utils.TimeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TheatresDAO {
     private static List<Theatre> localStorage = List.of(
@@ -15,7 +17,47 @@ public class TheatresDAO {
             new Theatre(4, "Theatre 5", "Street 1s", 62, 210, 13*TimeUtils.minute, "theatres/5.jpg")
     );
 
+    private static int lastId;
+    private static List<Theatre> runtimeStorage;
+
     public static List<Theatre> getAllTheatres(){
-        return new ArrayList<>(localStorage);
+        if(runtimeStorage==null){
+            runtimeStorage = new ArrayList<>(localStorage);
+            for(Theatre theatre: runtimeStorage){
+                if(theatre.getId()>lastId) lastId=theatre.getId();
+            }
+        }
+        return runtimeStorage;
+    }
+
+    public static void addTheatre(Theatre theatre){
+        runtimeStorage.add(theatre);
+    }
+
+    public static void removeTheatre(int id){
+        runtimeStorage.removeIf(theatre -> theatre.getId() == id);
+    }
+
+    public static Theatre getByField(Criteria criteria, String data){
+        try {
+            switch (criteria) {
+                case DISTANCE:
+                    return runtimeStorage.stream().filter(t -> t.getDistance() == Integer.parseInt(data)).collect(Collectors.toList()).get(0);
+                case ADDRESS:
+                    return runtimeStorage.stream().filter(t -> t.getAddress().equals(data)).collect(Collectors.toList()).get(0);
+                case CAPACITY:
+                    return runtimeStorage.stream().filter(t -> t.getCapacity() == Integer.parseInt(data)).collect(Collectors.toList()).get(0);
+                case NAME:
+                    return runtimeStorage.stream().filter(t -> t.getName().equals(data)).collect(Collectors.toList()).get(0);
+                case RATING:
+                    return runtimeStorage.stream().filter(t -> t.getRating() == Integer.parseInt(data)).collect(Collectors.toList()).get(0);
+            }
+        }catch (Exception e) {
+            throw new RuntimeException("Item not found exception", e);
+        }
+        throw new RuntimeException("Invalid criteria");
+    }
+    public static int getId(){
+        return ++lastId;
     }
 }
