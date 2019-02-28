@@ -1,6 +1,9 @@
 package psrod.doublelinkedlist.views.main;
 
+import psrod.doublelinkedlist.entities.Theatre;
+import psrod.doublelinkedlist.services.SortingServiceLinked;
 import psrod.doublelinkedlist.views.modals.DeleteDialog;
+import psrod.doublelinkedlist.views.modals.EditTheatreForm;
 import psrod.doublelinkedlist.views.modals.SearchForm;
 import psrod.doublelinkedlist.views.modals.TheatreForm;
 
@@ -46,6 +49,13 @@ public class MainForm {
             @Override
             public void mouseClicked(MouseEvent e) {
                 new SearchForm();
+            }
+        });
+        Edit.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Theatre theatre = SortingServiceLinked.getNodeById(theatreId).getElement();
+                new EditTheatreForm(theatre.getName(), theatre.getAddress(), theatre.getRating(), theatre.getCapacity(), theatre.getDistance(), theatre.getImageURL(), theatreId);
             }
         });
     }

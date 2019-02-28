@@ -38,6 +38,12 @@ public class TheatresDAO {
         runtimeStorage.removeIf(theatre -> theatre.getId() == id);
     }
 
+    public static void editTheatre(int id, Theatre theatre){
+        assert theatre.getId() == id;
+        removeTheatre(id);
+        addTheatre(theatre);
+    }
+
     public static Theatre getByField(Criteria criteria, String data){
         try {
             switch (criteria) {

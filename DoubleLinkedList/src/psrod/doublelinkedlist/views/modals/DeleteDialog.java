@@ -1,11 +1,12 @@
 package psrod.doublelinkedlist.views.modals;
 
 import psrod.doublelinkedlist._main.Runner;
-import psrod.doublelinkedlist.services.SortingService;
 import psrod.doublelinkedlist.storage.TheatresDAO;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class DeleteDialog extends JDialog {
     private int theatreId;
@@ -37,7 +38,7 @@ public class DeleteDialog extends JDialog {
 
     private void onOK() {
         TheatresDAO.removeTheatre(theatreId);
-        SortingService.makeTask(TheatresDAO.getAllTheatres());
+        Runner.getSortingService().makeTask(TheatresDAO.getAllTheatres());
         Runner.showElement(TheatresDAO.getAllTheatres().get(0).getId());
         dispose();
     }
