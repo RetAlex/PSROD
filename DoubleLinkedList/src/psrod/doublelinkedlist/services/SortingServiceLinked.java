@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SortingServiceLinked implements SortingService {
+public class SortingServiceLinked extends AbstractSortService {
     private static Map<Integer, MultiDimensionalNode<Theatre>> allTheatres = new HashMap<>();
 
     public void makeTask(List<Theatre> theatres){
@@ -16,25 +16,6 @@ public class SortingServiceLinked implements SortingService {
         for(Criteria criteria: Criteria.values()) {
             sortByCriteria(criteria.getCriteriaName(), theatres);
             addSortingDimension(criteria.getCriteriaName(), theatres);
-        }
-    }
-
-    private static void sortByCriteria(String criteria, List<Theatre> theatres){
-        switch (criteria) {
-            case "address":
-                theatres.sort(Comparator.comparing(Theatre::getAddress));
-                break;
-            case "capacity":
-                theatres.sort(Comparator.comparing(Theatre::getCapacity));
-                break;
-            case "rating":
-                theatres.sort(Comparator.comparing(Theatre::getRating));
-                break;
-            case "distance":
-                theatres.sort(Comparator.comparing(Theatre::getDistance));
-                break;
-            case "name":
-                theatres.sort(Comparator.comparing(Theatre::getName));
         }
     }
 

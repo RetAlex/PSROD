@@ -1,5 +1,6 @@
 package psrod.doublelinkedlist._main;
 
+import psrod.doublelinkedlist.services.DatabaseSortingService;
 import psrod.doublelinkedlist.services.SortingService;
 import psrod.doublelinkedlist.services.SortingServiceLinked;
 import psrod.doublelinkedlist.storage.TheatresDAO;
@@ -12,7 +13,7 @@ public class Runner {
     private static SortingService sortingService;
 
     public static void main(String[] args){
-        sortingService = new SortingServiceLinked();
+        sortingService = new DatabaseSortingService();
         sortingService.makeTask(TheatresDAO.getAllTheatres());
         showElement(0);
     }
