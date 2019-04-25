@@ -31,6 +31,10 @@ public class Theatre {
         this.imageURL = imageURL;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }

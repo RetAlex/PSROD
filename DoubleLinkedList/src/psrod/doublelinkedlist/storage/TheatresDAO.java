@@ -1,10 +1,10 @@
 package psrod.doublelinkedlist.storage;
 
+import psrod.doublelinkedlist.db.DatabaseConnection;
 import psrod.doublelinkedlist.entities.Theatre;
 import psrod.doublelinkedlist.enums.Criteria;
 import psrod.doublelinkedlist.utils.TimeUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,21 +21,24 @@ public class TheatresDAO {
     private static List<Theatre> runtimeStorage;
 
     public static List<Theatre> getAllTheatres(){
-        if(runtimeStorage==null){
-            runtimeStorage = new ArrayList<>(localStorage);
-            for(Theatre theatre: runtimeStorage){
-                if(theatre.getId()>lastId) lastId=theatre.getId();
-            }
-        }
-        return runtimeStorage;
+        return DatabaseConnection.getAllTheatres();
+//        if(runtimeStorage==null){
+//            runtimeStorage = new ArrayList<>(localStorage);
+//            for(Theatre theatre: runtimeStorage){
+//                if(theatre.getId()>lastId) lastId=theatre.getId();
+//            }
+//        }
+//        return runtimeStorage;
     }
 
     public static void addTheatre(Theatre theatre){
-        runtimeStorage.add(theatre);
+        DatabaseConnection.createTheatre(theatre);
+//        runtimeStorage.add(theatre);
     }
 
     public static void removeTheatre(int id){
-        runtimeStorage.removeIf(theatre -> theatre.getId() == id);
+        DatabaseConnection.removeTheatre(id);
+//        runtimeStorage.removeIf(theatre -> theatre.getId() == id);
     }
 
     public static void editTheatre(int id, Theatre theatre){
